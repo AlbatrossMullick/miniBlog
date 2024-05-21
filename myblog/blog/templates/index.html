@@ -1,0 +1,45 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+<title>Mini blog site</title>
+{% endblock %}
+
+{% block content %}
+{% for blog in latest_blogs %}
+<div class="card text-center w-75 p-3 my-3 rounded-5">
+    <div class="card-header text-start">
+      <strong>{{blog.blogger_name|capfirst}}</strong><footer class="fs-6 fw-lighter" title="Source Title"> ({{ blog.post_date }})</footer>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ blog.title }}</h5>
+      <p class="card-text">{{ blog.description|truncatechars:100 }}</p>
+      <a href="" class="btn btn-primary">Read full blog</a>
+    </div>
+    {% if blog.comment_set.all %}
+    <div class="card-title text-start ">
+        <hr>
+        <strong>Comments..</strong>
+        <span class="badge text-bg-danger bg-opacity-100">
+          {{ blog.comment_set.all.count }}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+        <hr>
+    </div>
+    {% for comment in blog.comment_set.all %}
+    <div class="text-start">
+    <a href="" class=" btn link-underline link-underline-opacity-0">
+    <blockquote class="blockquote text-start p-2 text-light bg-primary bg-gradient bg-opacity-75 my-1 rounded-4 w-auto">
+        <p>{{ comment.comment }}</p>
+        <footer class="blockquote-footer text-start text-light fs-6 opacity-75">{{ comment.comment_by|capfirst }} <cite title="Source Title">({{ comment.comment_date }})</cite></footer>
+    </blockquote>
+    </a>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div>
+        <p>add comment yet to create</p>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
