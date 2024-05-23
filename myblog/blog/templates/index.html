@@ -12,8 +12,9 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ blog.title }}</h5>
-      <p class="card-text">{{ blog.description|truncatechars:100 }}</p>
-      <a href="" class="btn btn-primary">Read full blog</a>
+      <p id="less_{{ forloop.counter }}" class="card-text">{{ blog.description|truncatechars:100 }}</p>
+      <p id="more_{{ forloop.counter }}" class="card-text" style="display:none;">{{ blog.description }}</p>
+      <button class="btn btn-primary" onclick="readBlog(this, 'more_{{ forloop.counter }}', 'less_{{ forloop.counter }}')" >Read full blog</button>
     </div>
     {% if blog.comment_set.all %}
     <div class="card-title text-start ">
@@ -28,7 +29,7 @@
     {% for comment in blog.comment_set.all %}
     <div class="text-start">
     <a href="" class=" btn link-underline link-underline-opacity-0">
-    <blockquote class="blockquote text-start p-2 text-light bg-primary bg-gradient bg-opacity-75 my-1 rounded-4 w-auto">
+      <blockquote class="blockquote text-start p-2 text-light bg-primary bg-gradient bg-opacity-75 my-1 rounded-4 w-auto">
         <p>{{ comment.comment }}</p>
         <footer class="blockquote-footer text-start text-light fs-6 opacity-75">{{ comment.comment_by|capfirst }} <cite title="Source Title">({{ comment.comment_date }})</cite></footer>
     </blockquote>
@@ -41,5 +42,6 @@
     </div>
   </div>
 {% endfor %}
-
+{% load static %}
+<script src="{% static "javascript/homepage.js" %}" type="text/javascript">
 {% endblock %}
