@@ -1,0 +1,13 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="card row">
+    <div class="col"></div>
+    <div class="col">
+        <h1>Logged out!</h1>
+        <h3><a href="{% url 'login'%}">Click here to login again.</a></h3>      
+    </div>
+    <div class="col"></div>
+
+</div>
+{% endblock %}

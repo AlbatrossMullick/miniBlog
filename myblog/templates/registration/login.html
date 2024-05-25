@@ -1,0 +1,47 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="row m-2">
+<div class="col"></div>
+<div class="card col">
+    <div><h2>Login</h2></div>
+        {% if form.errors %}
+            <p>
+                Your username and password didn't match. Please try again.
+            </p>
+        {% endif %}
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+            {% else %}
+                <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+        
+    <form class="form-floating align-middle" method="post" action="{% url "login" %}">
+        {% csrf_token %}
+        <div class="col-auto p-2 m-2">
+            <label class="visually-hidden" for="{{ form.username.id_for_label }}">Username</label>
+            <div class="input-group">
+              <div class="input-group-text">📧</div>
+              {{ form.username}}
+            </div>
+        </div>
+        <div class="col-auto p-2 m-2">
+            <label class="visually-hidden" for="{{ form.password.id_for_label }}">Password</label>
+            <div class="input-group">
+              <div class="input-group-text">🔑</div>
+              {{ form.password }}
+            </div>
+        </div>
+        <div class="col-auto">
+        <button type="submit" class="btn btn-outline-success p-2 m-2 ">Login</button>
+        <input type="hidden" name="next" value="{{ next }}">
+        </div>
+    </form>
+    <p><a href="{% url 'password_reset' %}">Forget password?</a></p>
+</div>
+<div class="col"></div>
+</div>
+{% endblock %}
