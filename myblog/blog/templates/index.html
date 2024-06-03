@@ -5,10 +5,19 @@
 {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated %}
+<div class="card">
+  <p>{{ user.first_name|capfirst }}</p>
+  <input type"textarea" placeholder="Write something to post"> </input>
+</div>
+{% endif %}
 {% for blog in latest_blogs %}
 <div class="justify-content-md-center card text-center p-3 my-3 rounded-5">
     <div class="card-header text-start">
-      <strong>{{blog.blogger_name|capfirst}}</strong><footer class="fs-6 fw-lighter" title="Source Title"> ({{ blog.post_date }})</footer>
+      <a class="link-underline link-underline-opacity-0">
+        <strong>{{blog.blogger_name|capfirst}}</strong>
+      </a>
+        <footer class="fs-6 fw-lighter" title="Source Title"> ({{ blog.post_date }})</footer>
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ blog.title }}</h5>
@@ -16,27 +25,31 @@
       <p id="more_{{ forloop.counter }}" class="card-text" style="display:none;">{{ blog.description }}</p>
       <button class="btn btn-primary" onclick="readBlog(this, 'more_{{ forloop.counter }}', 'less_{{ forloop.counter }}')" >Read full blog</button>
     </div>
-    {% if blog.comment_set.all %}
     <div class="card-title text-start ">
         <hr>
         <strong>Comments..</strong>
-        <span class="badge text-bg-danger bg-opacity-100">
-          {{ blog.comment_set.all.count }}
-          <span class="visually-hidden">unread messages</span>
+        <span class="comment-count badge text-bg-danger bg-opacity-100" data-comments-blog-id="{{ blog.id }}">
+          {% if blog.comment_set.all %} {{ blog.comment_set.all.count }} {% else %} 0 {% endif %}
         </span>
         <hr>
     </div>
-    <div class="comment-section" data-comments-blog-id="{{ blog.id }}">
+    <div class="comment-section overflow-y-scroll " style="max-height: 200px" data-comments-blog-id="{{ blog.id }}">
+    {% if blog.comment_set.all %}
     {% for comment in blog.comment_set.all %}
     <div class="comment text-start" data-comment-id="{{ comment.id }}">
-    <a href="" class=" btn link-underline link-underline-opacity-0">
-      <blockquote class="blockquote text-start p-2 text-light bg-primary bg-gradient bg-opacity-75 my-1 rounded-4 w-auto">
+    <a class="btn link-underline link-underline-opacity-0">
+      <blockquote class="blockquote text-start p-2 text-light bg-primary bg-gradient bg-opacity-75 m-2 rounded-4 w-auto">
         <p>{{ comment.comment }}</p>
         <footer class="blockquote-footer text-start text-light fs-6 opacity-75">{{ comment.comment_by|capfirst }} <cite title="Source Title">({{ comment.comment_date }})</cite></footer>
     </blockquote>
     </a>
     </div>
+    
     {% endfor %}
+    {% else %}
+    <div>
+      <p> No Comments... </p>
+    </div>
     {% endif %}
   </div>
   <hr>
