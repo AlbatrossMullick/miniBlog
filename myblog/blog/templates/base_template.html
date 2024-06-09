@@ -25,7 +25,7 @@
                 <a class="nav-link text-light active " aria-current="page" href={% url 'index' %}>Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light disabled" href="">All Bloggers</a>
+                <a class="nav-link text-light" href="{% url "bloggers_list" %}">All Bloggers</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link text-light disabled" href="" aria-disabled="true">Disabled</a>
@@ -33,7 +33,7 @@
             </ul>
             {% endblock %}
             {% if user.is_authenticated %}
-              <a href="#" class="nav-link text-light p-2 mx-2"><strong>Welcome</strong>, {% if user.first_name and user.last_name %} {{user.first_name|capfirst}} {{user.last_name|capfirst}} {% else %} {{user.username}} {% endif %}</a>
+              <a href="{% url "blogger_details" user.blogger.id %}" class="nav-link text-light p-2 mx-2"><strong>Welcome</strong>, {% if user.first_name and user.last_name %} {{user.first_name|capfirst}} {{user.last_name|capfirst}} {% else %} {{user.username}} {% endif %}</a>
               <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Logout</button>

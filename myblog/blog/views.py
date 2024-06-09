@@ -1,13 +1,16 @@
 from django.shortcuts import get_object_or_404, render, HttpResponse
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import BlogPost, Comment
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views import generic
+from .models import BlogPost, Comment, Blogger
 from .forms import UserCommentModelForm
 from .serializers import CommentSerializer
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
+from django.db.models import Count
 # Create your views here.
 
 
+@csrf_protect
 def index(request):
 
     latest_blogs = BlogPost.objects.all()
@@ -20,8 +23,25 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+class BloggerListView(generic.ListView):
+    model = Blogger
+    # template_name = 'user_list.html'
 
-@csrf_exempt
+    # def get_queryset(self):
+    #     return Blogger.objects.filter(blogpost__isnull=False).distinct()
+    
+
+
+class BloggerDetailView(generic.DetailView):
+    model = Blogger
+    # template_name = 'blogger_detail.html'
+    
+
+
+
+
+
+@csrf_protect
 def add_comment(request, blog_id):
     if request.method == "POST":
         # content = request.POST.get('comment')
@@ -44,6 +64,8 @@ def add_comment(request, blog_id):
         # print(request.user)
 
         # return HttpResponse(request, "hello")
+
+
 
 
 

@@ -14,7 +14,7 @@
 {% for blog in latest_blogs %}
 <div class="justify-content-md-center card text-center p-3 my-3 rounded-5">
     <div class="card-header text-start">
-      <a class="link-underline link-underline-opacity-0">
+      <a href="{% url "blogger_details" blog.blogger_name.blogger.id %}" class="link-underline link-underline-opacity-0">
         <strong>{{blog.blogger_name|capfirst}}</strong>
       </a>
         <footer class="fs-6 fw-lighter" title="Source Title"> ({{ blog.post_date }})</footer>

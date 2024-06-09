@@ -54,5 +54,23 @@ class Comment(models.Model):
     
 
 
+class Blogger(models.Model):
+    name = models.OneToOneField(User, on_delete=models.CASCADE, help_text="Name of the blogger")
+    blogger_photo = models.ImageField(upload_to="images/", help_text="Profile Picture", blank=True, null=True)
+    phone = models.CharField(max_length=10, help_text="Mobile number", blank=True, null=True)
+    
+
+    class Meta:
+        verbose_name = _("Blogger")
+        verbose_name_plural = _("Bloggers")
+        ordering = ['name']
+
+    def __str__(self) -> str:
+        return super().__str__()
+
+    def get_absolute_url(self):
+        return reverse("blogger_detail", kwargs={"pk": self.pk})
+
+
 
 

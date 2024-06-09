@@ -1,0 +1,36 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="card" >
+    <div class="position-relative card-img-top mh-25" >
+        <img style ="width: 100%;" src="https://images.pexels.com/photos/1107717/pexels-photo-1107717.jpeg?cs=srgb&dl=pexels-fotios-photos-1107717.jpg&fm=jpg" alt="...">
+        <div class="position-absolute bottom-0 start-0 m-3 ">
+            <img style ="height: 200px; max-width: 200px;" src="{{ blogger.blogger_photo.url }}" class="card-img-top rounded-circle" alt="...">
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ blogger.name.first_name|capfirst }} {{ blogger.name.last_name|capfirst }}</h5>
+        <p class="card-text"><strong>Username: </strong> {{ blogger.name }}</p>
+        <p class="card-text"><strong>Email: </strong> {{ blogger.name.email }}</p>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">Blogs written:</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% if blogger.name.blogpost_set.all %}
+            {% for blogs in blogger.name.blogpost_set.all %}
+                <a href="" ><li class="list-group-item">{{ blogs.title }}</li></a>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item">None...</li>
+        {% endif %}
+    </ul>
+    {% if user.id == blogger.id %}
+    <div class="card-body">
+        <a href="#" class="card-link">Edit Profile</a>
+    </div>
+    {% endif %}
+  </div>
+
+
+{% endblock %}
